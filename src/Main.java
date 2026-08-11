@@ -17,7 +17,7 @@ class main{
 
         do {
             System.out.println("------------------------FEDEX----------------------------");
-            System.out.println("1- Ingresar envio");
+            System.out.println("1- Ingresar envío");
             System.out.println("2- Imprimir reporte");
             System.out.println("3- Salir");
             System.out.println("--------------------------------------------------------");

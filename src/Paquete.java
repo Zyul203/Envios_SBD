@@ -1,19 +1,24 @@
-public abstract class Paquete {
+public abstract class Paquete
+{
     private String nombreDestinatario;
     private double pesoKG;
-    private EstrategiaEnvio estratetiaEnvio;
+    private EstrategiaEnvio estrategiaEnvio;
 
-    public Paquete(String nombreDestinatario, double pesoKG, EstrategiaEnvio estratetiaEnvio) {
-        if (pesoKG <= 0){
-            throw new IllegalArgumentException("El peso debe de ser mayo a 0");
+    public Paquete(String nombreDestinatario, double pesoKG, EstrategiaEnvio estrategiaEnvio)
+    {
+        if (pesoKG <= 0)
+        {
+            throw new IllegalArgumentException("El peso debe de ser mayor a 0...");
         }
+
         this.nombreDestinatario = nombreDestinatario;
         this.pesoKG = pesoKG;
-        this.estratetiaEnvio = estratetiaEnvio;
+        this.estrategiaEnvio = estrategiaEnvio;
     }
 
-    public double obtenerCostoEnvio(){
-       return estratetiaEnvio.calcularCosto(pesoKG);
+    public double obtenerCostoEnvio()
+    {
+       return estrategiaEnvio.calcularCosto(pesoKG);
     }
 
 

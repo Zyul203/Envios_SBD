@@ -1,11 +1,22 @@
-public class EnvioFragil implements EstrategiaEnvio {
-    @Override
-    public double calcularCosto(double pesoKg) {
-        return  ((2 * pesoKg) + 4) ;
+public class EnvioFragil implements EstrategiaEnvio
+{
+    private EstrategiaEnvio estrategiaEnvio;
+
+    public EnvioFragil(EstrategiaEnvio estrategiaEnvio)
+    {
+        this.estrategiaEnvio = estrategiaEnvio;
     }
 
-    @Override
+    public double calcularCosto(double pesoKg) {
+        return (estrategiaEnvio.calcularCosto(pesoKg) + 5.00) ;
+    }
     public boolean esRecargoUnico() {
         return true;
     }
+    public String nombreTipoEnvio() { return "Envío Frágil"; }
+
+
+
+    public EstrategiaEnvio getEstrategiaEnvio() { return estrategiaEnvio; }
+    public void setEstrategiaEnvio(EstrategiaEnvio estrategiaEnvio) { this.estrategiaEnvio = estrategiaEnvio; }
 }
