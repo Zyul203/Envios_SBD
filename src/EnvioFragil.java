@@ -13,7 +13,7 @@ public class EnvioFragil implements EstrategiaEnvio
     public boolean esRecargoUnico() {
         return true;
     }
-    public String nombreTipoEnvio() { return "Envío Frágil"; }
+    public String nombreTipoEnvio() { return getEstrategiaEnvio().nombreTipoEnvio() + " y " + "Frágil"; }
 
 
 

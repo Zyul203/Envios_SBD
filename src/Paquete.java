@@ -22,38 +22,12 @@ public abstract class Paquete
     }
 
 
+    public String getNombreDestinatario() { return nombreDestinatario; }
+    public void setNombreDestinatario(String nombreDestinatario) { this.nombreDestinatario = nombreDestinatario; }
 
-    @Override
-    public String toString() {
-        return "Paquete" +
-                "\nDestinatario: " + nombreDestinatario + '\n' +
-                "\nPeso KG: " + pesoKG +
-                "\nTipo de envio: "+ this.getEstratetiaEnvio().getClass() +
-                "\nCosto de envio: " + estratetiaEnvio.calcularCosto(pesoKG) +
-                "\nRecatgo fijo/unico: " + estratetiaEnvio.esRecargoUnico();
-    }
+    public double getPesoKG() { return pesoKG; }
+    public void setPesoKG(double pesoKG) { this.pesoKG = pesoKG; }
 
-    public String getNombreDestinatario() {
-        return nombreDestinatario;
-    }
-
-    public void setNombreDestinatario(String nombreDestinatario) {
-        this.nombreDestinatario = nombreDestinatario;
-    }
-
-    public double getPesoKG() {
-        return pesoKG;
-    }
-
-    public void setPesoKG(double pesoKG) {
-        this.pesoKG = pesoKG;
-    }
-
-    public EstrategiaEnvio getEstratetiaEnvio() {
-        return estratetiaEnvio;
-    }
-
-    public void setEstratetiaEnvio(EstrategiaEnvio estratetiaEnvio) {
-        this.estratetiaEnvio = estratetiaEnvio;
-    }
+    public EstrategiaEnvio getEstrategiaEnvio() { return estrategiaEnvio; }
+    public void setEstrategiaEnvio(EstrategiaEnvio estrategiaEnvio) { this.estrategiaEnvio = estrategiaEnvio; }
 }

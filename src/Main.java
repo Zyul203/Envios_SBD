@@ -1,84 +1,92 @@
 import java.util.Scanner;
 
 class main{
-    public static void main(String[] args){
+    public static void main(String[] args)
+    {
 
         Scanner sc = new Scanner(System.in);
-        EmpresaMensajeria mensajeria = new EmpresaMensajeria();
+        EmpresaMensajeria EM = new EmpresaMensajeria();
+
         int opc, opcEnvio;
         double peso;
-        String destinatario;
+        String destinatario, fragil = "";
         boolean repetir = true;
 
-        mensajeria.AñadirPaquete(new PaqueteEstandar("Luis Alejandro",15.5));
-        mensajeria.AñadirPaquete(new PaqueteExpress("Gregorio",10.3));
-        mensajeria.AñadirPaquete(new PaqueteInternacional("Anthony",6.9));
-        mensajeria.AñadirPaquete(new PaqueteFragil("Diego Alessandro",8.2));
+        //Crear los 4 paquetes por defecto
+        EM.RegistrarPaquete(new PaqueteC("Luis Alejandro",5, new EnvioEstandar()));
+        EM.RegistrarPaquete(new PaqueteC("Gregorio",1, new EnvioExpress()));
+        EM.RegistrarPaquete(new PaqueteC("Anthony",6.9, new EnvioInternacional()));
+        EM.RegistrarPaquete(new PaqueteC("Luis Manuel",5, new EnvioFragil(new EnvioEstandar())));
 
         do {
-            System.out.println("------------------------FEDEX----------------------------");
+            System.out.println("\n------------------------FEDEX----------------------------");
             System.out.println("1- Ingresar envío");
             System.out.println("2- Imprimir reporte");
             System.out.println("3- Salir");
             System.out.println("--------------------------------------------------------");
 
             try {
-                opc = sc.nextInt();
+                opc = Integer.parseInt(sc.nextLine());
 
                 switch (opc) {
                     case 1:
                         System.out.println("-------------------------------------------------");
-                        System.out.println("¿Que tipo de envio seria?");
-                        System.out.println("1- Envio Estandar");
-                        System.out.println("2- Envio Express");
-                        System.out.println("3- Envio Internacional");
-                        System.out.println("4- Envio Fragil");
-                        System.out.println("5- Salir");
+                        System.out.println("¿Que tipo de envío seria?");
+                        System.out.println("1- Envío Estándar");
+                        System.out.println("2- Envío Express");
+                        System.out.println("3- Envío Internacional");
+                        System.out.println("4- Salir");
                         System.out.println("-------------------------------------------------");
 
-                        opcEnvio = sc.nextInt();
-                        switch (opcEnvio) {
+                        opcEnvio = Integer.parseInt(sc.nextLine());
+                        switch (opcEnvio)
+                        {
                             case 1:
-                                System.out.println("Ingresar nombre de destinatario");
-                                destinatario = sc.next();
-                                System.out.println("Ingresar peso(kg) del paquete");
-                                peso = sc.nextDouble();
+                                System.out.print("Ingresar nombre de destinatario: ");
+                                destinatario = sc.nextLine();
+                                System.out.print("Ingresar peso(kg) del paquete: ");
+                                peso = Double.parseDouble(sc.nextLine());
+                                System.out.print("¿Es un envío frágil? (Y/N): ");
+                                fragil = sc.nextLine();
 
-                                mensajeria.AñadirPaquete(new PaqueteEstandar(destinatario, peso));
-                                System.out.println("Se ingreso correctamente el paquete");
+                                if(fragil.equalsIgnoreCase("N"))
+                                    EM.RegistrarPaquete(new PaqueteC(destinatario, peso, new EnvioEstandar()));
+                                else if (fragil.equalsIgnoreCase("Y"))
+                                    EM.RegistrarPaquete(new PaqueteC(destinatario,peso, new EnvioFragil(new EnvioEstandar())));
+
                                 break;
 
                             case 2:
-                                System.out.println("Ingresar nombre de destinatario");
-                                destinatario = sc.next();
-                                System.out.println("Ingresar peso(kg) del paquete");
-                                peso = sc.nextDouble();
+                                System.out.print("Ingresar nombre de destinatario: ");
+                                destinatario = sc.nextLine();
+                                System.out.print("Ingresar peso(kg) del paquete: ");
+                                peso = Double.parseDouble(sc.nextLine());
+                                System.out.print("¿Es un envío frágil? (Y/N): ");
+                                fragil = sc.nextLine();
 
-                                mensajeria.AñadirPaquete(new PaqueteExpress(destinatario, peso));
-                                System.out.println("Se ingreso correctamente el paquete");
+                                if(fragil.equalsIgnoreCase("N"))
+                                    EM.RegistrarPaquete(new PaqueteC(destinatario, peso, new EnvioExpress()));
+                                else if (fragil.equalsIgnoreCase("Y"))
+                                    EM.RegistrarPaquete(new PaqueteC(destinatario,peso, new EnvioFragil(new EnvioExpress())));
+
                                 break;
 
                             case 3:
-                                System.out.println("Ingresar nombre de destinatario");
-                                destinatario = sc.next();
-                                System.out.println("Ingresar peso(kg) del paquete");
-                                peso = sc.nextDouble();
+                                System.out.print("Ingresar nombre de destinatario: ");
+                                destinatario = sc.nextLine();
+                                System.out.print("Ingresar peso(kg) del paquete: ");
+                                peso = Double.parseDouble(sc.nextLine());
+                                System.out.print("¿Es un envío frágil? (Y/N): ");
+                                fragil = sc.nextLine();
 
-                                mensajeria.AñadirPaquete(new PaqueteInternacional(destinatario, peso));
-                                System.out.println("Se ingreso correctamente el paquete");
+                                if(fragil.equalsIgnoreCase("N"))
+                                    EM.RegistrarPaquete(new PaqueteC(destinatario, peso, new EnvioInternacional()));
+                                else if (fragil.equalsIgnoreCase("Y"))
+                                    EM.RegistrarPaquete(new PaqueteC(destinatario,peso, new EnvioFragil(new EnvioInternacional())));
+
                                 break;
 
                             case 4:
-                                System.out.println("Ingresar nombre de destinatario");
-                                destinatario = sc.next();
-                                System.out.println("Ingresar peso(kg) del paquete");
-                                peso = sc.nextDouble();
-
-                                mensajeria.AñadirPaquete(new PaqueteFragil(destinatario, peso));
-                                System.out.println("Se ingreso correctamente el paquete");
-                                break;
-
-                            case 5:
                                 System.out.println("----------------------------");
                                 System.out.println("Regresando al menu principal");
                                 System.out.println("----------------------------");
@@ -87,12 +95,11 @@ class main{
                             default:
                                 System.out.println("Error: Opcion invalida, pruebe con otra opcion!!!!!");
                                 break;
-
                         }
                         break;
 
                     case 2:
-                        mensajeria.Reporte();
+                        EM.Reporte();
                         break;
 
                     case 3:
@@ -101,17 +108,14 @@ class main{
                         break;
 
                     default:
-                        System.out.println("Error: Opcion invalida, pruebe con otra opcion!!!!!");
+                        System.err.println("Error: Opción invalida, pruebe con otra opción!!!!!\n");
                         break;
 
                 }
 
 
             }catch (Exception e) {
-                System.out.println("-----------------");
-                System.out.println("Opcion invalida");
-                System.out.println("-----------------");
-                sc.nextLine();
+                System.err.println("Opción invalida\n");
             }
 
         }while(repetir);
