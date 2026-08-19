@@ -4,6 +4,31 @@ import java.sql.*;
 public class RegistroSQL
 {
 
+    private int ID;
+    private String destinatario;
+    private double peso;
+    private String tipoEnvio;
+    private String regargoExtra;
+    private double costo;
+
+    public RegistroSQL(int ID, String destinatario, double peso, String tipoEnvio, String regargoExtra, double costo) {
+        this.ID = ID;
+        this.destinatario = destinatario;
+        this.peso = peso;
+        this.tipoEnvio = tipoEnvio;
+        this.regargoExtra = regargoExtra;
+        this.costo = costo;
+    }
+
+
+    public RegistroSQL(String destinatario, double peso, String tipoEnvio, String regargoExtra, double costo) {
+        this.destinatario = destinatario;
+        this.peso = peso;
+        this.tipoEnvio = tipoEnvio;
+        this.regargoExtra = regargoExtra;
+        this.costo = costo;
+    }
+
     public RegistroSQL() {}
 
     public int save(Paquete paquete) throws Exception
@@ -20,32 +45,75 @@ public class RegistroSQL
             stmt.setString(4, paquete.getEstrategiaEnvio().esRecargoUnico()?"SI":"NO");
             stmt.setDouble(5, paquete.obtenerCostoEnvio());
 
-            stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            return stmt.executeUpdate();
+            int filasAfectadas = stmt.executeUpdate();
+            try(ResultSet rs = stmt.getGeneratedKeys())
+            {
+                if (rs.next())
+                {
+                    this.ID = rs.getInt(1);
+                }
+            }
+
+            return filasAfectadas;
         }
     }
 
 
-    public static int deletebyId(int id) throws Exception
+    public int DeleteID() throws Exception
     {
-        try( Connection con= Conexion.getConexion();
-             PreparedStatement stmt = con.prepareStatement("DELETE FROM Envios where id = ?");
-        ) {
-            stmt.setInt(1, id);
+        String sql = "DELETE FROM Envios WHERE ID = ?";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement stmt = con.prepareStatement(sql))
+        {
+            stmt.setInt(1,this.ID);
+
             return stmt.executeUpdate();
         }
     }
 
 
+    public static RegistroSQL(int ID) throws Exception
+    {
+        String sql = "SELECT * FROM CuentasSQL WHERE ID = ?";
+
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement stmt = con.prepareStatement(sql))
+        {
+            stmt.setInt(1,ID);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next())
+            {
+                return new RegistroSQL(
+                        rs.getInt("ID"),
+                        rs.getString("destinatario"),
+                        rs.getInt("peso"),
+                        rs.getString("tipoEnvio")
+                );
+            }
+            return null;
+        }
+    }
+
+
+
+
+
+    public int getID() {return ID; }
+    public void setID(int ID) { this.ID = ID; }
+
+    public String getDestinatario() { return destinatario; }
+    public void setDestinatario(String destinatario) { this.destinatario = destinatario; }
+
+    public double getPeso() { return peso; }
+    public void setPeso(double peso) { this.peso = peso; }
+
+    public String getTipoEnvio() { return tipoEnvio; }
+    public void setTipoEnvio(String tipoEnvio) { this.tipoEnvio = tipoEnvio; }
+
+    public String getRegargoExtra() { return regargoExtra; }
+    public void setRegargoExtra(String regargoExtra) { this.regargoExtra = regargoExtra; }
+
+    public double getCosto() { return costo; }
+    public void setCosto(double costo) { this.costo = costo; }
 }
-
-/*
-
-1. Convertir de bolean a texto
-    Opción 1: Convertir a texto "true" o "false" (La más directa)
-        Usa String.valueOf() para transformar el booleano en texto directamente: String.valueOf(paquete.getEstrategiaEnvio().esRecargoUnico())
-    Opción 2: Guardar un texto personalizado
-        Si prefieres que quede registrado por ejemplo con un "SI" o "NO" se usa el operador ternario ?: : paquete.getEstrategiaEnvio().esRecargoUnico() ? "SI" : "NO"
-        (Si esRecargoUnico() es verdadero guardará "SI", de lo contrario guardará "NO").
- */

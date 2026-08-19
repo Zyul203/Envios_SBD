@@ -5,7 +5,8 @@ public class MetodosSQL {
     private static Scanner sc = new Scanner(System.in);
 
 
-    public static void CrearPaquete() {
+    public static void Save_Paquete()
+    {
 
         EmpresaMensajeria EM = new EmpresaMensajeria();
         int opcEnvio = 0;
@@ -58,7 +59,7 @@ public class MetodosSQL {
                     break;
 
                 default:
-                    System.out.println("Opcion invalida");
+                    System.out.println("Opción invalida");
                     break;
             }
 
