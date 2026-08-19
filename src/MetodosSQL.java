@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -32,7 +33,7 @@ public class MetodosSQL {
                     peso = Double.parseDouble(sc.nextLine());
 
                     Paquete a = new PaqueteC(destinatario, peso, new EnvioEstandar());
-                    RegistroSQL registroA = new RegistroSQL();
+                    PaqueteSQL registroA = new PaqueteSQL();
                     registroA.save(a);
                     break;
 
@@ -43,7 +44,7 @@ public class MetodosSQL {
                     peso = Double.parseDouble(sc.nextLine());
 
                     Paquete b = new PaqueteC(destinatario, peso, new EnvioExpress());
-                    RegistroSQL registroB = new RegistroSQL();
+                    PaqueteSQL registroB = new PaqueteSQL();
                     registroB.save(b);
                     break;
 
@@ -54,7 +55,7 @@ public class MetodosSQL {
                     peso = Double.parseDouble(sc.nextLine());
 
                     Paquete c = new PaqueteC(destinatario, peso, new EnvioInternacional());
-                    RegistroSQL registroC = new RegistroSQL();
+                    PaqueteSQL registroC = new PaqueteSQL();
                     registroC.save(c);
                     break;
 
@@ -67,4 +68,88 @@ public class MetodosSQL {
             throw new RuntimeException(e);
         }
     }
+
+
+
+    public static void DeleteID_Paquete() throws Exception
+    {
+        System.out.println("\n--- ELIMINAR PAQUETE ---");
+        System.out.print("ID: ");
+        int ID = Integer.parseInt(sc.nextLine());
+
+        PaqueteSQL p = PaqueteSQL.FindID(ID);
+        if (p.DeleteID() == 1)
+        {
+            System.out.println("Paquete eliminado!");
+        }
+
+    }
+
+    public static void UpdateID_Paquete() throws Exception
+    {
+        System.out.println("\n--- MODIFICAR PAQUETE (ID)---");
+
+        try {
+            System.out.print("ID: ");
+            int ID = Integer.parseInt(sc.nextLine());
+            PaqueteSQL p = PaqueteSQL.FindID(ID);
+
+            System.out.print("DESTINATARIO: ");
+            String nombre = sc.nextLine();
+            p.setDestinatario(nombre);
+
+            System.out.print("PESO: ");
+            Double peso = Double.parseDouble(sc.nextLine());
+            p.setPeso(peso);
+
+            p.UpdateID();
+
+        } catch (RuntimeException e) {}
+
+    }
+
+
+    public static void FindID_Paquete() throws Exception
+    {
+        System.out.println("\n--- BUSCAR PAQUETE (ID)---");
+        System.out.print("ID: ");
+        int ID = Integer.parseInt(sc.nextLine());
+
+        PaqueteSQL p = PaqueteSQL.FindID(ID);
+
+        if(p != null)
+        {
+            System.out.println("Destinatario: " + p.getDestinatario());
+            System.out.println("Peso: " + p.getPeso());
+            System.out.println("Tipo de envio: " + p.getTipoEnvio());
+            System.out.println("Recargo extra: " + p.getRecargoExtra());
+            System.out.println("Costo: " + p.getCosto());
+        }
+    }
+
+
+    public static void GetAll_Paquete() throws Exception
+    {
+        System.out.println("\n--- MOSTRAR TODOS LOS PAQUETES---");
+        List<PaqueteSQL> lista = PaqueteSQL.GetAll();
+
+        for (PaqueteSQL p : lista)
+        {
+            System.out.println("Destinatario: " + p.getDestinatario());
+            System.out.println("Peso: " + p.getPeso());
+            System.out.println("Tipo de envio: " + p.getTipoEnvio());
+            System.out.println("Recargo extra: " + p.getRecargoExtra());
+            System.out.println("Costo: " + p.getCosto());
+            System.out.println("------------------------");
+        }
+    }
+
+
+
+
+
+
+
+
+
 }

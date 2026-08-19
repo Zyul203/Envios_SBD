@@ -1,39 +1,40 @@
 import Modulos.SQL.Conexion;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class RegistroSQL
+public class PaqueteSQL
 {
-
     private int ID;
     private String destinatario;
     private double peso;
     private String tipoEnvio;
-    private String regargoExtra;
+    private String recargoExtra;
     private double costo;
 
-    public RegistroSQL(int ID, String destinatario, double peso, String tipoEnvio, String regargoExtra, double costo) {
+    public PaqueteSQL(int ID, String destinatario, double peso, String tipoEnvio, String recargoExtra, double costo) {
         this.ID = ID;
         this.destinatario = destinatario;
         this.peso = peso;
         this.tipoEnvio = tipoEnvio;
-        this.regargoExtra = regargoExtra;
+        this.recargoExtra = recargoExtra;
         this.costo = costo;
     }
 
 
-    public RegistroSQL(String destinatario, double peso, String tipoEnvio, String regargoExtra, double costo) {
+    public PaqueteSQL(String destinatario, double peso, String tipoEnvio, String recargoExtra, double costo) {
         this.destinatario = destinatario;
         this.peso = peso;
         this.tipoEnvio = tipoEnvio;
-        this.regargoExtra = regargoExtra;
+        this.recargoExtra = recargoExtra;
         this.costo = costo;
     }
 
-    public RegistroSQL() {}
+    public PaqueteSQL() {}
 
     public int save(Paquete paquete) throws Exception
     {
-        String sql = "INSERT INTO Envios (destinatario, peso, tipoEnvio, recargoExtra, costo) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO PaqueteSQL (destinatario, peso, tipoEnvio, recargoExtra, costo) VALUES (?,?,?,?,?)";
 
         try (Connection con = Conexion.getConexion();
              PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
@@ -61,7 +62,7 @@ public class RegistroSQL
 
     public int DeleteID() throws Exception
     {
-        String sql = "DELETE FROM Envios WHERE ID = ?";
+        String sql = "DELETE FROM PaqueteSQL WHERE ID = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement stmt = con.prepareStatement(sql))
         {
@@ -72,9 +73,9 @@ public class RegistroSQL
     }
 
 
-    public static RegistroSQL(int ID) throws Exception
+    public static PaqueteSQL FindID(int ID) throws Exception
     {
-        String sql = "SELECT * FROM CuentasSQL WHERE ID = ?";
+        String sql = "SELECT * FROM PaqueteSQL WHERE ID = ?";
 
         try (Connection con = Conexion.getConexion();
              PreparedStatement stmt = con.prepareStatement(sql))
@@ -84,20 +85,57 @@ public class RegistroSQL
             ResultSet rs = stmt.executeQuery();
             if (rs.next())
             {
-                return new RegistroSQL(
+                return new PaqueteSQL(
                         rs.getInt("ID"),
                         rs.getString("destinatario"),
                         rs.getInt("peso"),
-                        rs.getString("tipoEnvio")
-                );
+                        rs.getString("tipoEnvio"),
+                        rs.getString("recargoExtra"),
+                        rs.getDouble("costo"));
             }
             return null;
         }
     }
 
+    public int UpdateID() throws Exception
+    {
+        String sql = "UPDATE PaqueteSQL SET destinatario = ?, peso = ? WHERE ID = ?";
 
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement stmt = con.prepareStatement(sql))
+        {
+            stmt.setString(1,this.destinatario);
+            stmt.setDouble(2,this.peso);
+            stmt.setInt(3,this.ID);
 
+            return stmt.executeUpdate();
+        }
+    }
 
+    public static List<PaqueteSQL> GetAll() throws Exception
+    {
+        List<PaqueteSQL> lista = new ArrayList<>();
+        String sql = "SELECT * FROM PaqueteSQL";
+
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement stmt = con.prepareStatement(sql))
+        {
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                lista.add(new PaqueteSQL(
+                        rs.getInt("ID"),
+                        rs.getString("destinatario"),
+                        rs.getDouble("peso"),
+                        rs.getString("tipoEnvio"),
+                        rs.getString("recargoExtra"),
+                        rs.getDouble("costo"))
+                );
+            }
+        }
+        return lista;
+    }
 
     public int getID() {return ID; }
     public void setID(int ID) { this.ID = ID; }
@@ -111,8 +149,8 @@ public class RegistroSQL
     public String getTipoEnvio() { return tipoEnvio; }
     public void setTipoEnvio(String tipoEnvio) { this.tipoEnvio = tipoEnvio; }
 
-    public String getRegargoExtra() { return regargoExtra; }
-    public void setRegargoExtra(String regargoExtra) { this.regargoExtra = regargoExtra; }
+    public String getRecargoExtra() { return recargoExtra; }
+    public void setRecargoExtra(String recargoExtra) { this.recargoExtra = recargoExtra; }
 
     public double getCosto() { return costo; }
     public void setCosto(double costo) { this.costo = costo; }
